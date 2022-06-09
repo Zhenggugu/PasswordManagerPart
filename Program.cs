@@ -15,55 +15,8 @@ namespace PasswordManagerPart
 
             Reuse reuse = new();
             reuse.Reusing();
-            //CheckComplex checkComplex = new();
-            //checkComplex.Check();
-            RandomPass randomPass = new();
-            randomPass.MakePassword(10);
-            randomPass.showPass();
-            randomPass.InsertPass("1241", "hyper", "tiansuo", "132");
-        }
-    }
-    class RandomPass
-    {
-        public string targetPassword="";
-        public string MakePassword(int length)//输入密码需要的长度
-        {
-            int RandNum;
-            string randomchars = "abcde+_-#$%^fghijklmnopuvwxyz01234567q+_-#$%^rst+_-#$%^uvwxyz01234567+_-#$%^89ABCDEFGHuvwxyz01234567IJKLMNOPQRSTUVWXYZ+_-#$%^";
-            Random random = new();
-            for (int i = 0; i < length; i++)
-            {
-                RandNum = random.Next(randomchars.Length);
-                targetPassword += randomchars[RandNum];
-            }
-            return targetPassword;
-        }
-        public void showPass()
-        {
-            if(targetPassword.Length==0)
-                Console.WriteLine("请先生成一个再显示行不");
-            else
-                Console.WriteLine("随机生成的密码是"+targetPassword+"不满意可以继续，满意建议保存到数据库");
-        }
-       
-        public void InsertPass(string id,string description,string account_name,string user_id)//传入准备插入数据库需要的东西
-        {
-            if (targetPassword.Length==0)
-            {
-                Console.WriteLine("拜托先生成个密码");
-                return;
-            }
-            string conStr = "server=localhost;user=root;password=123456;database=pass_assistant";
-            MySqlConnection con = new MySqlConnection(conStr);
-            con.Open();
-            MySqlCommand command = new MySqlCommand();
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.Text;
-            //command.CommandText = @"INSERT INTO account_info VALUES(" + id + "," + account_name + "," +targetPassword+"," +user_id+");";
-            //command.CommandText = "INSERT INTO account_info VALUES(" + '"' + id+'"' + ","+'"' + account_name + '"'+ "," + '"' + targetPassword + '"' + "," + '"' + user_id + '"' + ");";
-            command.CommandText=$"INSERT INTO account_info VALUES({id},'{description}','{user_id}','{targetPassword}','{user_id}');";         
-            command.ExecuteNonQuery();//去不掉字符串里面的\放弃了
-            con.Close();
+            CheckComplex checkComplex = new();
+            checkComplex.Check();
         }
     }
     public class CheckComplex
