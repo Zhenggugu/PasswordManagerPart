@@ -7,7 +7,6 @@ using MySql.Data.MySqlClient;
 
 namespace PasswordManagerPart
 {
-    
     class Program
     {
         static void Main(string[] args)
@@ -33,13 +32,13 @@ namespace PasswordManagerPart
         }
         public void Check()//检测所有密码版
         {
-            string conStr = "server=localhost;user=root;password=123456;database=pass_assistant";
+            string conStr = "server=localhost;user=root;password=123456;database=software";
             MySqlConnection con = new MySqlConnection(conStr);
             con.Open();
             MySqlCommand command = new MySqlCommand();
             command.Connection = con;
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT account_password FROM account_info;";
+            command.CommandText = "SELECT PASS FROM passw;";
             MySqlDataReader mySqlDataReader = command.ExecuteReader();
             List<string> passwd = new();
             while (mySqlDataReader.Read())
@@ -55,7 +54,6 @@ namespace PasswordManagerPart
                 else
                     Console.WriteLine(item+"强度低，建议修改");
             }
-            con.Close();
         }
     }
     public class Reuse
@@ -64,24 +62,27 @@ namespace PasswordManagerPart
         public int Reusing()
         {
             int count = 0;
-            string conStr = "server=localhost;user=root;password=123456;database=pass_assistant";
+            string conStr = "server=localhost;user=root;password=123456;database=software";
             MySqlConnection con = new MySqlConnection(conStr);
             con.Open();
             MySqlCommand command = new MySqlCommand();
             command.Connection = con;
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT DISTINCT account_password FROM account_info;";
+            command.CommandText = "SELECT DISTINCT PASS FROM passw;";
             MySqlDataReader mySqlDataReader = command.ExecuteReader();
             List<string> password = new();
             while(mySqlDataReader.Read())
             {
                 password.Add(mySqlDataReader.GetString(0));
+                //command.CommandText = "SELECT COUNT(*) FROM passw WHERE PASS=" + ;
+                //MySqlDataReader reader1 = command.ExecuteReader();
+                //count += reader1.GetInt32(0);
             }
             mySqlDataReader.Close();
             //此处应有一个解密过程
             foreach (var item in password)
             {
-                command.CommandText = "SELECT COUNT(*) FROM account_info WHERE account_password=" + item;
+                command.CommandText = "SELECT COUNT(*) FROM passw WHERE PASS=" + item;
                 MySqlDataReader reader1 = command.ExecuteReader();
                 reader1.Read();
                 count += reader1.GetInt32(0);
