@@ -13,8 +13,8 @@ namespace PasswordManagerPart
 
             Reuse reuse = new();
             reuse.Reusing();
-            //CheckComplex checkComplex = new();
-            //checkComplex.Check();
+            CheckComplex checkComplex = new();
+            checkComplex.Check();
             RandomPass randomPass = new();
             randomPass.MakePassword(10);
             randomPass.showPass();
@@ -27,7 +27,7 @@ namespace PasswordManagerPart
         public string MakePassword(int length)//输入密码需要的长度
         {
             int RandNum;
-            string randomchars = "abcdefghijkl*/-+.mnopqrstuvwxyz0123456789AB/*-+.CDEF@#$%^&*GHIJKL/*-+.MNOPQRSTUVWXYZ";
+            string randomchars = "abcdefghijkl*/-+.mnopq@#$%^&rstuvwxyz0123@#$%^&456789AB/*-+.CDEF@#$%^&*GHIJKL/*-+.M@#$%^&NOPQRSTUVWXYZ";
             Random random = new();
             for (int i = 0; i < length; i++)
             {
@@ -69,7 +69,7 @@ namespace PasswordManagerPart
     {
         public bool Match(string password)//判断复杂度;T为强
         {
-            Regex regex = new(@"^[a-zA-Z0-9_-]{6,20}$");//暂时不管，不知道为啥114514都是强
+            Regex regex = new(@"[\da-zA-Z]*\d+[a-zA-Z]+[\da-zA-Z]*");//暂时不管，不知道为啥114514都是强
             if (regex.IsMatch(password))
             {
                 return true;
