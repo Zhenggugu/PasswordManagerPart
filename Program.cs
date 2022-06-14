@@ -130,7 +130,10 @@ namespace PasswordManagerPart
                 command.CommandText = $"SELECT COUNT(*) FROM account_info WHERE account_password='{item}';";
                 MySqlDataReader reader1 = command.ExecuteReader();
                 reader1.Read();
-                count += reader1.GetInt32(0);
+                if (reader1.GetInt32(0)!=1)
+                {
+                    count += reader1.GetInt32(0);
+                }
                 reader1.Close();
             }
             Console.WriteLine("重用密码数量" + count);
